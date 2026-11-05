@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+:root{--bg:#EEF3F0;--ink:#14221B;--muted:#5A6A62;--line:#C9D6CF;--accent:#1E7A53;--soft:#DCEFE5;--sel:#E9A800;--selsoft:#FFF3CC;--head:#E4EBE7}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:"Atkinson Hyperlegible",sans-serif;overflow:hidden}
+.c{width:var(--w);height:var(--h);padding:var(--pad);display:flex;flex-direction:column;gap:var(--gap)}
+.logo{display:flex;align-items:center;gap:.35em;font:800 var(--logo) "Bricolage Grotesque";}
+.logo i{width:1em;height:1em;border:.11em solid var(--accent);border-radius:.16em;position:relative;display:block}
+.logo i::after{content:"";position:absolute;right:-.22em;bottom:-.22em;width:.34em;height:.34em;background:var(--accent);border-radius:.05em}
+.tag{align-self:flex-start;font:700 var(--tag) "JetBrains Mono";text-transform:uppercase;letter-spacing:.08em;background:var(--ink);color:var(--bg);padding:.5em .9em;border-radius:.5em}
+h1{font:800 var(--h1)/1.02 "Bricolage Grotesque";letter-spacing:-.02em}
+h1 em{font-style:normal;background:var(--selsoft);box-shadow:inset 0 -.12em 0 var(--sel);padding:0 .06em}
+.lead{font-size:var(--lead);color:var(--muted);line-height:1.35}
+.sheet{flex-shrink:0;background:#fff;border:3px solid var(--line);border-radius:22px;overflow:hidden;font-size:var(--cell)}
+.fb{display:flex;border-bottom:3px solid var(--line);font-family:"JetBrains Mono"}
+.fb span{padding:.55em .7em}.fb .r{background:var(--head);font-weight:700;border-right:3px solid var(--line)}.fb .x{color:var(--muted);font-style:italic}
+table{border-collapse:collapse;width:100%}
+td,th{border:2px solid var(--line);padding:.5em .7em;text-align:left}
+th{background:var(--head);color:var(--muted);font:700 .7em "JetBrains Mono";text-align:center;padding:.35em}
+td.n{text-align:right;font-family:"JetBrains Mono"}
+td.b{font-weight:700}td.s{outline:5px solid var(--sel);outline-offset:-4px;background:var(--selsoft)}
+.price{display:flex;flex-direction:column;gap:.3em;font-size:var(--price);line-height:1.3}
+.price b{color:var(--accent)}
+.cta{margin-top:auto;background:var(--accent);color:#fff;border-radius:24px;padding:.7em .9em;font:800 var(--cta) "Bricolage Grotesque";text-align:center}
+.url{font:700 var(--url) "JetBrains Mono";text-align:center;color:var(--ink)}
+.wd{flex-direction:row!important;gap:4vw!important;align-items:center}.wd .L,.wd .R{flex:1;display:flex;flex-direction:column;gap:2.6vh;min-width:0}.wd .cta{margin-top:1vh}.wd .sheet{border-radius:2vh}
+</style></head><body><div class="c" id="c"></div>
+<script>
+const P=new URLSearchParams(location.search),lang=P.get("lang")||"es",fmt=P.get("fmt")||"sq";
+const S=fmt==="wd"?{w:"100vw",h:"100vh",pad:"5.2vh 4.5vw",gap:"2.6vh",logo:"4.6vh",tag:"2.3vh",h1:"8.6vh",lead:"2.9vh",cell:"2.9vh",price:"2.9vh",cta:"3.9vh",url:"2.5vh"}:fmt==="sq"?{w:"1080px",h:"1080px",pad:"64px",gap:"22px",logo:"44px",tag:"22px",h1:"80px",lead:"32px",cell:"24px",price:"28px",cta:"40px",url:"26px"}
+                  :{w:"1080px",h:"1920px",pad:"96px 80px 120px",gap:"44px",logo:"60px",tag:"28px",h1:"128px",lead:"42px",cell:"34px",price:"38px",cta:"52px",url:"34px"};
+Object.entries(S).forEach(([k,v])=>document.documentElement.style.setProperty("--"+k,v));
+const T={es:{tag:"App de pago · 1ª lección gratis",h1:"Aprende Excel <em>haciendo</em>, 5 minutos al día",
+ lead:"Lecciones cortas con práctica en una hoja de cálculo real. En español e inglés.",
+ rows:[["Gasto","Monto"],["Renta","450"],["Comida","200"],["Transporte","120"]],f:"=SUMA(B2:B4)",
+ price:"<span>Prueba gratis: <b>Tu primer presupuesto en 5 minutos</b></span><span>Curso básico 7.99 USD · pago único</span>",
+ cta:"Únete a la lista de espera"},
+ en:{tag:"Paid app · lesson 1 free",h1:"Learn Excel by <em>doing</em>, 5 minutes a day",
+ lead:"Short lessons with practice in a real spreadsheet. In English and Spanish.",
+ rows:[["Expense","Amount"],["Rent","450"],["Food","200"],["Transport","120"]],f:"=SUM(B2:B4)",
+ price:"<span>Try free: <b>Your first budget in 5 minutes</b></span><span>Basic course 7.99 USD · one-time</span>",
+ cta:"Join the waitlist"}}[lang];
+const sheet=`<div class="sheet"><div class="fb"><span class="r">B5</span><span class="x">fx</span><span>${T.f}</span></div><table>
+<tr><th style="width:1.6em"></th><th>A</th><th>B</th></tr>
+${T.rows.map((r,i)=>`<tr><th>${i+1}</th><td class="${i?"":"b"}">${r[0]}</td><td class="n ${i?"":"b"}">${r[1]}</td></tr>`).join("")}
+<tr><th>5</th><td class="b">Total</td><td class="n b s">770</td></tr></table></div>`;
+if(fmt==="wd"){document.getElementById("c").classList.add("wd");document.getElementById("c").innerHTML=`<div class="L"><div class="logo"><i></i>PractiCel</div><span class="tag">${T.tag}</span><h1>${T.h1}</h1><p class="lead">${T.lead}</p><div class="price">${T.price}</div></div><div class="R">${sheet}<div class="cta">${T.cta}</div><div class="url">mandyrc74.github.io/practicel</div></div>`}else document.getElementById("c").innerHTML=`<div class="logo"><i></i>PractiCel</div><span class="tag">${T.tag}</span><h1>${T.h1}</h1>
+${fmt==="st"?`<p class="lead">${T.lead}</p>`:""}${sheet}<div class="price">${T.price}</div><div class="cta">${T.cta}</div><div class="url">mandyrc74.github.io/practicel</div>`;
+</script></body></html>
