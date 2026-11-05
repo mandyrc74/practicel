@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="PractiCel, la app de pago para aprender Excel practicando. Prueba gratis la primera lección.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>PractiCel: aprende Excel haciendo</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one narrow column; a live mini spreadsheet in the hero, then three reasons, prices and the sign-up button. */
+:root{
+  --bg:#EEF3F0; --surface:#FFFFFF; --ink:#14221B; --muted:#5A6A62; --line:#D3DDD8;
+  --accent:#1E7A53; --accent-ink:#FFFFFF; --accent-soft:#DCEFE5; --sel:#E9A800; --sel-soft:#FFF3CC; --head:#E4EBE7;
+  --f-display:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --f-body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1612; --surface:#16211C; --ink:#E5EEE9; --muted:#93A49B; --line:#2A3a33;
+  --accent:#49C08B; --accent-ink:#06130D; --accent-soft:#1B3A2C; --sel:#F4C53D; --sel-soft:#3A3216; --head:#1D2A24; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1612; --surface:#16211C; --ink:#E5EEE9; --muted:#93A49B; --line:#2A3a33;
+  --accent:#49C08B; --accent-ink:#06130D; --accent-soft:#1B3A2C; --sel:#F4C53D; --sel-soft:#3A3216; --head:#1D2A24; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:17px/1.55 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:560px;margin:0 auto;padding-block:20px 56px;display:flex;flex-direction:column;gap:36px}
+h1,h2,h3{font-family:var(--f-display);margin:0;text-wrap:balance;line-height:1.08}
+p{margin:0}
+.top{display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:8px;font:800 22px var(--f-display)}
+.logo i{width:24px;height:24px;border:2.5px solid var(--accent);border-radius:4px;position:relative;display:block}
+.logo i::after{content:"";position:absolute;right:-5px;bottom:-5px;width:8px;height:8px;background:var(--accent);border-radius:1px}
+.spacer{flex:1}
+.lang{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lang button{border:0;background:transparent;padding:6px 10px;font:600 13px var(--f-mono);color:var(--ink);cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+button:focus-visible,a:focus-visible{outline:3px solid var(--sel);outline-offset:2px}
+.hero{display:flex;flex-direction:column;gap:16px}
+.hero h1{font-size:clamp(36px,9vw,52px);font-weight:800;letter-spacing:-.02em}
+.hero h1 em{font-style:normal;background:var(--sel-soft);box-shadow:inset 0 -0.12em 0 var(--sel);padding:0 .08em}
+.lead{font-size:19px;color:var(--muted)}
+.demo{border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden;font-variant-numeric:tabular-nums}
+.fbar{display:flex;border-bottom:1px solid var(--line);font:14px var(--f-mono)}
+.fbar span{padding:9px 10px}
+.fbar .ref{background:var(--head);font-weight:600;border-right:1px solid var(--line);min-width:48px;text-align:center}
+.fbar .fx{color:var(--muted);font-style:italic}
+.fbar .typed{flex:1;min-width:0;white-space:nowrap;overflow:hidden}
+.caret{display:inline-block;width:2px;height:1em;background:var(--ink);vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.demo table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:15px}
+.demo th{background:var(--head);color:var(--muted);font:600 12px var(--f-mono);height:24px;border:1px solid var(--line);border-top:0}
+.demo th:first-child{width:32px}
+.demo td{border:1px solid var(--line);height:38px;padding:0 10px}
+.demo td.n{text-align:right;font-family:var(--f-mono);font-size:14px}
+.demo td.b{font-weight:700}
+.demo td.sel{outline:2.5px solid var(--sel);outline-offset:-2px;background:var(--sel-soft)}
+.cta{display:flex;flex-direction:column;gap:8px}
+.btn{display:block;text-align:center;text-decoration:none;border-radius:12px;padding:15px 18px;font-weight:700;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.small{font-size:14px;color:var(--muted)}
+.eyebrow{font:600 12px var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.why{display:flex;flex-direction:column;gap:18px}
+.why h2,.price h2{font-size:28px}
+.pt{display:grid;grid-template-columns:44px 1fr;gap:4px 14px;align-items:start}
+.pt .ic{grid-row:span 2;width:44px;height:44px;border-radius:10px;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font:700 15px var(--f-mono)}
+.pt h3{font-size:19px}
+.pt p{color:var(--muted);font-size:16px}
+.price{display:flex;flex-direction:column;gap:12px}
+.tiers{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.tier{display:flex;gap:12px;align-items:baseline;padding:14px 16px;border-bottom:1px solid var(--line)}
+.tier:last-child{border-bottom:0}
+.tier div{flex:1;min-width:0}
+.tier small{display:block;color:var(--muted);font-size:14px}
+.tier b.p{font:700 20px var(--f-display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.inc{display:flex;flex-direction:column;gap:12px}
+.inc h2{font-size:28px}
+.incgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.incc{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.incc h3{font-size:19px}
+.incc ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:15px}
+.incc li b{font-weight:700}
+footer{font-size:13px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion: reduce){.caret{animation:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <div class="top"><div class="logo"><i></i>PractiCel</div><span class="spacer"></span>
+    <div class="lang" role="group" aria-label="Idioma / Language">
+      <button id="lang-es" data-lang="es" aria-pressed="true">ES</button><button id="lang-en" data-lang="en" aria-pressed="false">EN</button></div></div>
+
+  <section class="hero">
+    <span class="eyebrow" data-t="eyebrow"></span>
+    <h1 data-t="h1"></h1>
+    <p class="lead" data-t="lead"></p>
+    <div class="demo" aria-hidden="true">
+      <div class="fbar"><span class="ref">B5</span><span class="fx">fx</span><span class="typed"><span id="typed"></span><span class="caret"></span></span></div>
+      <table><thead><tr><th></th><th>A</th><th>B</th></tr></thead><tbody>
+        <tr><th>1</th><td class="b" data-t="c_exp"></td><td class="b n" data-t="c_amt"></td></tr>
+        <tr><th>2</th><td data-t="c_rent"></td><td class="n">450</td></tr>
+        <tr><th>3</th><td data-t="c_food"></td><td class="n">200</td></tr>
+        <tr><th>4</th><td data-t="c_trans"></td><td class="n">120</td></tr>
+        <tr><th>5</th><td class="b">Total</td><td class="b n sel" id="result"></td></tr>
+      </tbody></table>
+    </div>
+    <div class="cta">
+      <a class="btn" id="join" href="#" target="_blank" rel="noopener" data-t="join"></a>
+      <a class="btn ghost" id="try" href="prueba/" data-t="tryFree"></a>
+      <p class="small" data-t="joinNote"></p>
+    </div>
+  </section>
+
+  <section class="why">
+    <span class="eyebrow" data-t="whyEyebrow"></span>
+    <h2 data-t="whyH"></h2>
+    <div class="pt"><span class="ic">=fx</span><h3 data-t="p1h"></h3><p data-t="p1"></p></div>
+    <div class="pt"><span class="ic">5′</span><h3 data-t="p2h"></h3><p data-t="p2"></p></div>
+    <div class="pt"><span class="ic">ES</span><h3 data-t="p3h"></h3><p data-t="p3"></p></div>
+  </section>
+
+  <section class="inc">
+    <span class="eyebrow" data-t="incEyebrow"></span>
+    <h2 data-t="incH"></h2>
+    <div class="incgrid">
+      <div class="incc"><h3 data-t="t1"></h3><ul data-t="incBasic"></ul></div>
+      <div class="incc"><h3 data-t="t2"></h3><ul data-t="incAdv"></ul></div>
+    </div>
+  </section>
+
+  <section class="price">
+    <span class="eyebrow" data-t="priceEyebrow"></span>
+    <h2 data-t="priceH"></h2>
+    <div class="tiers">
+      <div class="tier"><div><b data-t="t0"></b><small data-t="t0d"></small></div><b class="p" data-t="free"></b></div>
+      <div class="tier"><div><b data-t="t1"></b><small data-t="t1d"></small></div><b class="p">7.99 USD</b></div>
+      <div class="tier"><div><b data-t="t2"></b><small data-t="t2d"></small></div><b class="p">12.99 USD</b></div>
+      <div class="tier"><div><b data-t="t3"></b><small data-t="t3d"></small></div><b class="p">17.99 USD</b></div>
+    </div>
+    <p class="small" data-t="priceNote"></p>
+    <a class="btn" id="join2" href="#" target="_blank" rel="noopener" data-t="join"></a>
+  </section>
+
+  <footer data-t="foot"></footer>
+</div>
+
+<script>
+const FORM_URL = { es:"https://docs.google.com/forms/d/e/1FAIpQLSen62dXpKpK-BGgJV1ja_hmVqF92GiUX0mWusr10xaEJpqc1Q/viewform", en:"https://docs.google.com/forms/d/e/1FAIpQLSen62dXpKpK-BGgJV1ja_hmVqF92GiUX0mWusr10xaEJpqc1Q/viewform" };
+const T={
+ es:{eyebrow:"Próximamente para iPhone · App de pago",h1:"Aprende Excel <em>haciendo</em>, 5 minutos al día",
+  lead:"Lecciones cortas con ejercicios en una hoja de cálculo real. Para principiantes, estudiantes y oficinistas.",
+  c_exp:"Gasto",c_amt:"Monto",c_rent:"Renta",c_food:"Comida",c_trans:"Transporte",formula:"=SUMA(B2:B4)",
+  join:"Únete a la lista de espera",joinNote:"PractiCel es una app de pago. La primera lección es gratis para que la pruebes antes de comprar. Responde 7 preguntas en 2 minutos y te avisamos el día del lanzamiento.",
+  joinSoon:"La lista de espera abre muy pronto",tryFree:"Prueba la lección gratis",
+  whyEyebrow:"Por qué PractiCel",whyH:"No es otro tutorial para leer",
+  p1h:"Practica en cada lección",p1:"Escribes la fórmula tú mismo y la app la revisa al instante. Si te equivocas, te explica por qué.",
+  p2h:"Lecciones de 5 minutos",p2:"Avanza en el camión o en tu descanso, con rachas diarias y un certificado al terminar.",
+  p3h:"En español y en inglés",p3:"Aprendes los nombres de las funciones en los dos idiomas: SUMA y SUM, BUSCARV y VLOOKUP.",
+  incEyebrow:"Qué incluye",incH:"Esto es lo que recibes al pagar",
+  incBasic:"<li><b>30 lecciones</b> en 6 módulos, con práctica en cada una</li><li>Formato, fórmulas, SI, CONTAR.SI, SUMAR.SI, ordenar, filtrar y gráficos</li><li><b>5 proyectos reales:</b> presupuesto, lista de compras, calificaciones, inventario y gastos</li><li>Certificado al terminar</li>",
+  incAdv:"<li><b>7 módulos</b> pensados para el trabajo de oficina</li><li>BUSCARV, BUSCARX, tablas dinámicas, FILTRAR, UNICOS y Power Query</li><li>Tableros de control y macros para automatizar</li><li><b>Casos reales:</b> reporte de ventas, nómina simple y tablero</li><li>Certificado avanzado</li>",
+  priceEyebrow:"Precio",priceH:"Es una app de pago: pagas una vez y es tuyo",
+  t0:"Lección gratis",t0d:"Tu primer presupuesto en 5 minutos, para probar antes de comprar",free:"Gratis",t1:"Curso básico",t1d:"6 módulos y certificado",
+  t2:"Curso avanzado",t2d:"BUSCARX, tablas dinámicas, tableros y macros",t3:"Paquete completo",t3d:"Básico y avanzado",
+  priceNote:"La primera lección es lo único gratis. El resto del curso requiere compra. Sin suscripción y sin anuncios. Precios de lanzamiento, pueden cambiar.",
+  foot:"PractiCel está en desarrollo. Excel es una marca de Microsoft; PractiCel no está afiliada a Microsoft."},
+ en:{eyebrow:"Coming soon for iPhone · Paid app",h1:"Learn Excel by <em>doing</em>, 5 minutes a day",
+  lead:"Short lessons with exercises in a real spreadsheet. For beginners, students and office workers.",
+  c_exp:"Expense",c_amt:"Amount",c_rent:"Rent",c_food:"Food",c_trans:"Transport",formula:"=SUM(B2:B4)",
+  join:"Join the waitlist",joinNote:"PractiCel is a paid app. The first lesson is free so you can try it before you buy. Answer 7 questions in 2 minutes and we'll tell you on launch day.",
+  joinSoon:"The waitlist opens very soon",tryFree:"Try the free lesson",
+  whyEyebrow:"Why PractiCel",whyH:"Not another tutorial to read",
+  p1h:"Practice in every lesson",p1:"You type the formula yourself and the app checks it instantly. If it's wrong, it tells you why.",
+  p2h:"5-minute lessons",p2:"Learn on the bus or on your break, with daily streaks and a certificate at the end.",
+  p3h:"In Spanish and English",p3:"Learn function names in both languages: SUM and SUMA, VLOOKUP and BUSCARV.",
+  incEyebrow:"What's included",incH:"This is what you get when you pay",
+  incBasic:"<li><b>30 lessons</b> in 6 modules, with practice in each</li><li>Formatting, formulas, IF, COUNTIF, SUMIF, sorting, filtering and charts</li><li><b>5 real projects:</b> budget, shopping list, grades, inventory and expenses</li><li>Certificate at the end</li>",
+  incAdv:"<li><b>7 modules</b> designed for office work</li><li>VLOOKUP, XLOOKUP, PivotTables, FILTER, UNIQUE and Power Query</li><li>Dashboards and macros to automate</li><li><b>Real cases:</b> sales report, simple payroll and dashboard</li><li>Advanced certificate</li>",
+  priceEyebrow:"Pricing",priceH:"It's a paid app: pay once and it's yours",
+  t0:"Free lesson",t0d:"Your first budget in 5 minutes, to try before you buy",free:"Free",t1:"Basic course",t1d:"6 modules and certificate",
+  t2:"Advanced course",t2d:"XLOOKUP, PivotTables, dashboards and macros",t3:"Full bundle",t3d:"Basic and advanced",
+  priceNote:"The first lesson is the only free part. The rest of the course requires a purchase. No subscription and no ads. Launch prices, subject to change.",
+  foot:"PractiCel is in development. Excel is a trademark of Microsoft; PractiCel is not affiliated with Microsoft."}
+};
+let lang="es";
+try{const s=localStorage.getItem("celda-landing-lang");if(s==="en"||s==="es")lang=s}catch(e){}
+let timer=null;
+function apply(){
+  const d=T[lang];document.documentElement.lang=lang;
+  document.querySelectorAll("[data-t]").forEach(el=>{el.innerHTML=d[el.dataset.t]});
+  document.querySelectorAll(".lang button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.lang===lang));
+  const url=FORM_URL[lang]||FORM_URL.es;
+  ["join","join2"].forEach(id=>{const a=document.getElementById(id);
+    if(url){a.href=url;a.textContent=d.join;a.removeAttribute("aria-disabled");a.classList.remove("ghost")}
+    else{a.removeAttribute("href");a.textContent=d.joinSoon;a.setAttribute("aria-disabled","true");a.classList.add("ghost")}});
+  clearTimeout(timer);document.getElementById("typed").textContent=d.formula;document.getElementById("result").textContent="770";
+  if(!matchMedia("(prefers-reduced-motion: reduce)").matches)timer=setTimeout(()=>typeDemo(d.formula),2500);
+}
+function typeDemo(f){
+  clearTimeout(timer);const out=document.getElementById("typed"),res=document.getElementById("result");
+  const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(reduce){out.textContent=f;res.textContent="770";return}
+  let i=0;out.textContent="";res.textContent="";
+  const step=()=>{if(i<=f.length){out.textContent=f.slice(0,i++);timer=setTimeout(step,110)}
+    else{res.textContent="770";timer=setTimeout(()=>typeDemo(f),3200)}};
+  step();
+}
+document.querySelector(".lang").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;
+  lang=b.dataset.lang;try{localStorage.setItem("celda-landing-lang",lang)}catch(e){}apply()});
+apply();
+</script>
+
+</body>
+</html>

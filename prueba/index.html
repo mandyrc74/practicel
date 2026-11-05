@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Prueba gratis la primera lección de PractiCel.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>PractiCel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a phone-width app column; the spreadsheet grid is the hero of every lesson. */
+:root{
+  --bg:#EEF3F0; --surface:#FFFFFF; --ink:#14221B; --muted:#5A6A62; --line:#D3DDD8;
+  --accent:#1E7A53; --accent-ink:#FFFFFF; --accent-soft:#DCEFE5;
+  --sel:#E9A800; --sel-soft:#FFF3CC; --bad:#B4372A; --bad-soft:#FBE3DF;
+  --head:#E4EBE7;
+  --f-display:"Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
+  --f-body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1612; --surface:#16211C; --ink:#E5EEE9; --muted:#93A49B; --line:#2A3a33;
+  --accent:#49C08B; --accent-ink:#06130D; --accent-soft:#1B3A2C;
+  --sel:#F4C53D; --sel-soft:#3A3216; --bad:#F08A7C; --bad-soft:#3D1F1B; --head:#1D2A24;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1612; --surface:#16211C; --ink:#E5EEE9; --muted:#93A49B; --line:#2A3a33;
+  --accent:#49C08B; --accent-ink:#06130D; --accent-soft:#1B3A2C;
+  --sel:#F4C53D; --sel-soft:#3A3216; --bad:#F08A7C; --bad-soft:#3D1F1B; --head:#1D2A24;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font:16px/1.5 var(--f-body);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.app{max-width:460px;margin:0 auto;padding-block:16px 40px;display:flex;flex-direction:column;gap:18px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible{outline:3px solid var(--sel);outline-offset:2px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+.top{display:flex;align-items:center;gap:10px}
+.logo{display:flex;align-items:center;gap:8px;font:800 22px var(--f-display);letter-spacing:-.01em}
+.logo i{width:26px;height:26px;border:2.5px solid var(--accent);border-radius:4px;position:relative;display:block}
+.logo i::after{content:"";position:absolute;right:-5px;bottom:-5px;width:8px;height:8px;background:var(--accent);border-radius:1px}
+.chip{font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:3px 8px}
+.spacer{flex:1}
+.lang{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lang button{border:0;background:transparent;padding:6px 10px;font:600 13px var(--f-mono)}
+.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.stats{display:flex;gap:10px}
+.stat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.stat b{display:block;font:700 22px var(--f-display);font-variant-numeric:tabular-nums}
+.stat span{font-size:13px;color:var(--muted)}
+.course{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.course h2{font-size:24px}
+.course p{margin:0;color:var(--muted)}
+.bar{height:8px;background:var(--head);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:99px;transition:width .4s}
+.eyebrow{font:600 12px var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.mods{display:flex;flex-direction:column;gap:8px}
+.mod{border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.mod-h{display:flex;align-items:center;gap:12px;padding:12px 14px;width:100%;background:transparent;border:0;text-align:left}
+.mod-n{font:600 13px var(--f-mono);color:var(--muted);width:28px}
+.mod-t{flex:1;font-weight:700}
+.tag{font:600 11px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;padding:3px 7px;border-radius:6px}
+.tag.free{background:var(--accent-soft);color:var(--accent)}
+.tag.lock{background:var(--head);color:var(--muted)}
+.lessons{display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.les{display:flex;align-items:center;gap:12px;padding:11px 14px;background:transparent;border:0;border-bottom:1px solid var(--line);text-align:left;width:100%}
+.les:last-child{border-bottom:0}
+.les:disabled{cursor:default;color:var(--muted)}
+.dot{width:24px;height:24px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font:700 12px var(--f-mono);flex:none}
+.les.done .dot{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.les.next .dot{border-color:var(--accent);color:var(--accent)}
+.les small{display:block;color:var(--muted);font-size:13px}
+.adv{border:1.5px dashed var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:6px}
+.adv p{margin:0;color:var(--muted);font-size:14px}
+.advlist{margin:4px 0 6px;padding-left:22px;font-size:14px;display:flex;flex-direction:column;gap:3px}
+.mod-s{display:block;font-weight:400;font-size:13px;color:var(--muted)}
+.mdet{border-top:1px solid var(--line);padding:12px 14px 14px;display:flex;flex-direction:column;gap:8px}
+.mdet ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:3px;font-size:15px}
+.mdet .goal{margin:0;font-size:14px;color:var(--muted)}
+.mdet .goal b{color:var(--ink)}
+.inc{margin:6px 0 0;padding-left:18px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:2px}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink)}
+.btn[disabled]{opacity:.5;cursor:default}
+/* lesson */
+.lhead{display:flex;align-items:center;gap:10px}
+.back{border:1px solid var(--line);background:var(--surface);border-radius:10px;width:40px;height:40px;font-size:18px}
+.steps{display:flex;gap:6px;flex:1}
+.steps i{flex:1;height:6px;border-radius:99px;background:var(--head)}
+.steps i.on{background:var(--accent)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.card h2{font-size:26px}
+.card p{margin:0}
+.note{background:var(--sel-soft);border-radius:10px;padding:10px 12px;font-size:14px}
+code,.mono{font-family:var(--f-mono);font-size:.92em}
+.task{font-weight:700;font-size:17px}
+.fbar{display:flex;align-items:stretch;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.fbar .ref{font:600 14px var(--f-mono);padding:0 10px;display:grid;place-items:center;background:var(--head);min-width:52px;border-right:1px solid var(--line)}
+.fbar .fx{font:italic 600 14px var(--f-mono);color:var(--muted);padding:0 8px;display:grid;place-items:center}
+.fbar input{flex:1;min-width:0;border:0;background:transparent;font:15px var(--f-mono);padding:11px 8px;color:var(--ink)}
+.fbar input:focus{outline:none}
+.fbar:focus-within{border-color:var(--sel)}
+.fbar button{border:0;background:var(--accent);color:var(--accent-ink);padding:0 14px;font-weight:700}
+.gridwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table.sheet{border-collapse:collapse;width:100%;table-layout:fixed;font-variant-numeric:tabular-nums}
+.sheet th{background:var(--head);font:600 12px var(--f-mono);color:var(--muted);height:26px;border:1px solid var(--line);font-weight:600}
+.sheet th.corner{width:34px}
+.sheet td{border:1px solid var(--line);height:40px;padding:0}
+.sheet td button{width:100%;height:100%;border:0;background:transparent;padding:0 8px;text-align:left;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.sheet td.num button{text-align:right;font-family:var(--f-mono);font-size:13px}
+.sheet td.bold button{font-weight:700}
+.sheet td.sel{outline:2.5px solid var(--sel);outline-offset:-2px;background:var(--sel-soft)}
+.sheet td.target:not(.sel){background:repeating-linear-gradient(135deg,transparent 0 6px,var(--accent-soft) 6px 8px)}
+.sheet td.pref{box-shadow:inset 0 0 0 2px var(--accent);background:var(--accent-soft)}
+.sheet.edit{touch-action:none;user-select:none;-webkit-user-select:none}
+.sheet th.hl{background:var(--sel-soft);color:var(--ink)}
+.fb{border-radius:10px;padding:10px 12px;font-size:15px}
+.fb.bad{background:var(--bad-soft);color:var(--bad)}
+.fb.good{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row .btn{flex:1}
+.win{text-align:center;align-items:center}
+.win .big{font:800 56px var(--f-display);color:var(--accent);line-height:1}
+/* paywall */
+.sheetbg{position:fixed;inset:0;background:rgb(0 0 0 / .45);display:flex;align-items:flex-end;justify-content:center;z-index:20}
+.pay{background:var(--surface);width:100%;max-width:480px;border-radius:20px 20px 0 0;
+  padding:20px max(18px,env(safe-area-inset-left,0px)) calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px;max-height:90%;overflow:auto}
+.plan{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;background:transparent;text-align:left;width:100%}
+.plan[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.plan div{flex:1}
+.plan small{display:block;color:var(--muted);font-size:13px}
+.plan b.p{font:700 18px var(--f-display);font-variant-numeric:tabular-nums}
+.best{font:600 10px var(--f-mono);text-transform:uppercase;letter-spacing:.06em;background:var(--sel);color:#1a1400;border-radius:5px;padding:2px 6px;margin-left:6px}
+.fine{font-size:13px;color:var(--muted);margin:0}
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="app" id="app"></div>
+
+<script>
+const T = {
+  es:{proto:"Prototipo",streak:"Racha",days:"días",day:"día",xp:"XP",lessonsDone:"lecciones",
+    basic:"Curso básico",basicSub:"De cero a tu primer presupuesto en 6 módulos.",
+    module:"Módulo",free:"1ª lección gratis",locked:"De pago",freeLesson:"Gratis",paidDemo:"Curso básico · abierta solo en esta demo",soon:"Próximamente",
+    learn:"Aprende",practice:"Practica",start:"Empezar a practicar",check:"Revisar",
+    hint:"Ver pista",next:"Siguiente paso",home:"Volver al curso",
+    good:"¡Correcto!",earned:"ganados",doneTitle:"¡Hiciste tu primer presupuesto!",
+    doneAll:"Ya sabes moverte en la hoja, escribir datos y sumar con una fórmula. Esa fue tu lección gratis. El curso básico sigue con formato, más fórmulas, funciones y gráficos.",
+    freeTitle:"Tu primer presupuesto en 5 minutos",stepsWord:"pasos",step:"Paso",of:"de",inBasic:"Incluida en el curso básico",
+    adv:"Curso avanzado",advSub:"BUSCARX, tablas dinámicas, tableros y macros. 7 módulos.",
+    unlock:"Desbloquear",youLearn:"Qué aprenderás",goalLbl:"Al terminar:",unlockBasic:"Desbloquear curso básico",lessonsWord:"lecciones",payTitle:"Sigue aprendiendo",payLead:"PractiCel es una app de pago. Solo la primera lección es gratis. Para seguir, elige un curso:",
+    pBasic:"Curso básico",pBasicD:"6 módulos y certificado",pAdv:"Curso avanzado",pAdvD:"7 módulos y certificado",
+    pAll:"Paquete completo",pAllD:"Básico y avanzado",best:"Ahorra 3 USD",once:"pago único",
+    buy:"Continuar",payNote:"Esto es un prototipo: no se cobra nada.",payThanks:"Gracias. En la app real aquí se abriría el pago de Apple.",
+    close:"Cerrar",cell:"Celda",enter:"Escribe y pulsa Enter",reset:"Reiniciar progreso"},
+  en:{proto:"Prototype",streak:"Streak",days:"days",day:"day",xp:"XP",lessonsDone:"lessons",
+    basic:"Basic course",basicSub:"From zero to your first budget in 6 modules.",
+    module:"Module",free:"Lesson 1 free",locked:"Paid",freeLesson:"Free",paidDemo:"Basic course · open only in this demo",soon:"Coming soon",
+    learn:"Learn",practice:"Practice",start:"Start practicing",check:"Check",
+    hint:"Show hint",next:"Next step",home:"Back to course",
+    good:"Correct!",earned:"earned",doneTitle:"You made your first budget!",
+    doneAll:"You can now move around the sheet, enter data and add with a formula. That was your free lesson. The basic course continues with formatting, more formulas, functions and charts.",
+    freeTitle:"Your first budget in 5 minutes",stepsWord:"steps",step:"Step",of:"of",inBasic:"Included in the basic course",
+    adv:"Advanced course",advSub:"XLOOKUP, PivotTables, dashboards and macros. 7 modules.",
+    unlock:"Unlock",youLearn:"What you'll learn",goalLbl:"When you finish:",unlockBasic:"Unlock basic course",lessonsWord:"lessons",payTitle:"Keep learning",payLead:"PractiCel is a paid app. Only the first lesson is free. To continue, choose a course:",
+    pBasic:"Basic course",pBasicD:"6 modules and certificate",pAdv:"Advanced course",pAdvD:"7 modules and certificate",
+    pAll:"Full bundle",pAllD:"Basic and advanced",best:"Save $3",once:"one-time",
+    buy:"Continue",payNote:"This is a prototype: nothing is charged.",payThanks:"Thanks. In the real app, Apple's payment sheet would open here.",
+    close:"Close",cell:"Cell",enter:"Type and press Enter",reset:"Reset progress"}
+};
+
+const MODULES = [
+  {es:"Primeros pasos",en:"First steps"},
+  {es:"Formato",en:"Formatting", n:5,
+   topics:{es:["Números, moneda y fechas","Bordes, colores y ajustar columnas","Formato condicional: resaltar lo importante"],en:["Numbers, currency and dates","Borders, colors and column widths","Conditional formatting: highlight what matters"]},
+   goal:{es:"Tus hojas se ven claras y profesionales.",en:"Your sheets look clear and professional."}},
+  {es:"Fórmulas básicas",en:"Basic formulas", n:5,
+   topics:{es:["Sumar, restar, multiplicar y dividir","SUMA, PROMEDIO, MIN y MAX","Referencias fijas con $A$1"],en:["Add, subtract, multiply and divide","SUM, AVERAGE, MIN and MAX","Fixed references with $A$1"]},
+   goal:{es:"Calculas totales, promedios y porcentajes sin calculadora.",en:"You calculate totals, averages and percentages without a calculator."}},
+  {es:"Funciones esenciales",en:"Essential functions", n:5,
+   topics:{es:["SI: que Excel decida por ti","CONTAR.SI y SUMAR.SI","Funciones de texto y fechas (HOY)"],en:["IF: let Excel decide for you","COUNTIF and SUMIF","Text and date functions (TODAY)"]},
+   goal:{es:"Marcas automáticamente quién aprobó o qué gasto se pasó del límite.",en:"You automatically flag who passed or which expense went over budget."}},
+  {es:"Organizar datos",en:"Organizing data", n:5,
+   topics:{es:["Ordenar y filtrar","Inmovilizar paneles","Tablas de Excel"],en:["Sort and filter","Freeze panes","Excel tables"]},
+   goal:{es:"Manejas listas de cientos de filas sin perderte.",en:"You handle lists with hundreds of rows without getting lost."}},
+  {es:"Gráficos y proyecto final",en:"Charts and final project", n:5,
+   topics:{es:["Gráficos de columnas, líneas y pastel","Preparar para imprimir","Proyecto: tu presupuesto mensual completo"],en:["Column, line and pie charts","Getting ready to print","Project: your complete monthly budget"]},
+   goal:{es:"Presentas tus datos con gráficos y obtienes tu certificado.",en:"You present your data with charts and earn your certificate."}}
+];
+const ADV_MODULES = {
+  es:["Búsquedas: BUSCARV y BUSCARX","Lógica avanzada: SI.CONJUNTO, Y, O","Tablas dinámicas","Funciones modernas: FILTRAR, ORDENAR, UNICOS","Limpieza de datos e introducción a Power Query","Tableros de control con KPIs","Macros y automatización"],
+  en:["Lookups: VLOOKUP and XLOOKUP","Advanced logic: IFS, AND, OR","PivotTables","Modern functions: FILTER, SORT, UNIQUE","Data cleanup and intro to Power Query","Dashboards with KPIs","Macros and automation"]
+};
+const INCLUDES = {
+  basic:{es:["30 lecciones cortas con práctica en cada una","5 proyectos reales: presupuesto, lista de compras, calificaciones, inventario y gastos","Certificado al terminar","Sin anuncios y para siempre"],en:["30 short lessons with practice in each","5 real projects: budget, shopping list, grades, inventory and expenses","Certificate at the end","No ads, yours forever"]},
+  adv:{es:["7 módulos para el trabajo de oficina","Casos reales: reporte de ventas, nómina simple y tablero","Certificado avanzado","Sin anuncios y para siempre"],en:["7 modules for office work","Real cases: sales report, simple payroll and dashboard","Advanced certificate","No ads, yours forever"]},
+  all:{es:["Todo el curso básico y el avanzado","Los dos certificados","El mejor precio"],en:["The full basic and advanced courses","Both certificates","The best price"]}
+};
+
+const L = (es,en)=>({es,en});
+const budget = {
+  A1:L("Gasto","Expense"), B1:L("Monto","Amount"),
+  A2:L("Renta","Rent"), B2:"450",
+  A3:L("Comida","Food"), B3:"200",
+  A4:L("Transporte","Transport")
+};
+const LESSONS = [
+  { id:"l1", title:L("Encuentra tus gastos","Find your expenses"), mins:1,
+    intro:{
+      es:["Vamos a armar el presupuesto de tu mes. Una hoja de cálculo es una cuadrícula: las columnas tienen letras (A, B, C) y las filas tienen números (1, 2, 3).",
+          "Cada casilla se llama <b>celda</b> y su nombre junta la letra y el número. La celda de la columna B y la fila 2 es <code>B2</code>, y ahí está tu renta: 450."],
+      en:["Let's build your monthly budget. A spreadsheet is a grid: columns have letters (A, B, C) and rows have numbers (1, 2, 3).",
+          "Each box is called a <b>cell</b>, and its name joins the letter and the number. The cell in column B, row 2 is <code>B2</code>, and that's where your rent is: 450."]},
+    note:L("Excel muestra el nombre de la celda elegida a la izquierda de la barra de fórmulas.","Excel shows the selected cell's name to the left of the formula bar."),
+    task:L("Toca la celda donde está lo que gastas en comida.","Tap the cell that holds what you spend on food."),
+    sheet:budget, edit:false, target:null,
+    check:s=> s.sel==="B3" ? null : L(`Elegiste ${s.sel}. La comida está en la fila 3; busca su monto en la columna B.`,`You picked ${s.sel}. Food is in row 3; find its amount in column B.`),
+    hint:L("Es la celda B3: columna B, fila 3.","It's cell B3: column B, row 3.")
+  },
+  { id:"l2", title:L("Escribir datos","Entering data"), mins:4,
+    intro:{
+      es:["Para escribir en una celda, primero tócala. Luego escribe en la barra de arriba y pulsa <b>Enter</b>.",
+          "Los números se alinean a la derecha y el texto a la izquierda. Así Excel te dice qué entendió."],
+      en:["To type into a cell, tap it first. Then type in the bar at the top and press <b>Enter</b>.",
+          "Numbers line up on the right and text on the left. That's how Excel shows you what it understood."]},
+    note:L("No escribas el signo de moneda ni comas por ahora. Solo el número: 120.","Don't type a currency sign or commas yet. Just the number: 120."),
+    task:L("Tu transporte costó 120 este mes. Escríbelo en la celda B4.","Your transport cost 120 this month. Enter it in cell B4."),
+    sheet:budget, edit:true, target:"B4", startSel:"B4",
+    check:(s,ev)=>{
+      const raw=(s.cells.B4||"").trim();
+      if(!raw) return L("La celda B4 sigue vacía. Tócala, escribe 120 y pulsa Enter.","Cell B4 is still empty. Tap it, type 120 and press Enter.");
+      if(Number(raw)!==120) return L(`B4 dice "${raw}". Debe ser solo el número 120.`,`B4 says "${raw}". It should be just the number 120.`);
+      return null;},
+    hint:L("Toca B4, escribe 120 en la barra y pulsa Enter o el botón ✓.","Tap B4, type 120 in the bar and press Enter or the ✓ button.")
+  },
+  { id:"l3", title:L("Tu primera fórmula","Your first formula"), mins:5,
+    intro:{
+      es:["Una <b>fórmula</b> hace cuentas por ti. Siempre empieza con el signo <code>=</code>.",
+          "Puedes sumar celdas una por una, como <code>=B2+B3+B4</code>, o usar la función <code>SUMA</code> con un rango: <code>=SUMA(B2:B4)</code> suma todo de B2 a B4.",
+          "No tienes que escribir los nombres de las celdas. Igual que en Excel, después de escribir <code>=</code>, <code>+</code> o <code>(</code>, toca una celda para agregarla, o arrastra el dedo de B2 a B4 para agregar el rango."],
+      en:["A <b>formula</b> does the math for you. It always starts with the <code>=</code> sign.",
+          "You can add cells one by one, like <code>=B2+B3+B4</code>, or use the <code>SUM</code> function with a range: <code>=SUM(B2:B4)</code> adds everything from B2 to B4.",
+          "You don't have to type the cell names. Just like in Excel, after you type <code>=</code>, <code>+</code> or <code>(</code>, tap a cell to add it, or drag from B2 to B4 to add the range."]},
+    note:L("Si tu Excel está en inglés, la función se llama SUM. Aquí funcionan las dos.","If your Excel is in Spanish, the function is called SUMA. Both work here."),
+    task:L("En B5, escribe una fórmula que sume los gastos de B2 a B4.","In B5, write a formula that adds the expenses from B2 to B4."),
+    sheet:{...budget,B4:"120",A5:L("Total","Total")}, bold:["A5","B5"], edit:true, target:"B5", startSel:"B5",
+    check:(s,ev)=>{
+      const raw=(s.cells.B5||"").trim();
+      if(!raw) return L("B5 está vacía. Escribe una fórmula que empiece con =.","B5 is empty. Type a formula that starts with =.");
+      if(raw[0]!=="=") return L(`Escribiste "${raw}" como texto. Las fórmulas empiezan con =.`,`You typed "${raw}" as text. Formulas start with =.`);
+      if(!/[A-Z]+\d/i.test(raw)) return L("Usa referencias a celdas, no números escritos a mano. Así el total se actualiza solo.","Use cell references, not typed numbers. That way the total updates itself.");
+      const v=ev("B5");
+      if(typeof v!=="number") return L("Excel no entiende esa fórmula. Revisa los paréntesis y los dos puntos del rango.","Excel can't read that formula. Check the parentheses and the colon in the range.");
+      if(v!==770) return L(`Tu fórmula da ${v}, pero el total es 770. ¿Incluiste B2, B3 y B4?`,`Your formula gives ${v}, but the total is 770. Did you include B2, B3 and B4?`);
+      return null;},
+    hint:L("Escribe =SUMA( , arrastra de B2 a B4, cierra con ) y pulsa Enter. También sirve =B2+B3+B4 tocando cada celda.","Type =SUM( , drag from B2 to B4, close with ) and press Enter. =B2+B3+B4 by tapping each cell works too.")
+  },
+];
+const PAID = [
+  { title:L("Filas, columnas y rangos","Rows, columns and ranges"), mins:5 },
+  { title:L("Copiar fórmulas hacia abajo","Copying formulas down"), mins:5 },
+  { title:L("Guardar y compartir tu archivo","Saving and sharing your file"), mins:4 },
+  { title:L("Repaso: tu lista de compras","Review: your shopping list"), mins:6 }
+];
+
+/* ---------- formula engine ---------- */
+const COLS=["A","B","C","D"], ROWS=[1,2,3,4,5,6];
+function tokenize(s){
+  const out=[];let i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(/\s/.test(c)){i++;continue}
+    let m;
+    if(m=s.slice(i).match(/^\d+(\.\d+)?/)){out.push({t:"num",v:parseFloat(m[0])});i+=m[0].length;continue}
+    if(m=s.slice(i).match(/^[A-Za-z][A-Za-z.]*\d*/)){
+      const w=m[0].toUpperCase();
+      if(/^[A-Z]{1,2}\d+$/.test(w)) out.push({t:"ref",v:w}); else out.push({t:"id",v:w});
+      i+=m[0].length;continue}
+    if("+-*/():,;".includes(c)){out.push({t:c});i++;continue}
+    throw new Error("tok");
+  }
+  return out;
+}
+const FN={
+  SUM:a=>a.reduce((x,y)=>x+y,0), SUMA:a=>a.reduce((x,y)=>x+y,0),
+  AVERAGE:a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:NaN, PROMEDIO:a=>FN.AVERAGE(a),
+  MIN:a=>Math.min(...a), MAX:a=>Math.max(...a), COUNT:a=>a.length, CONTAR:a=>a.length
+};
+function rangeRefs(a,b){
+  const ca=a.match(/[A-Z]+/)[0],ra=+a.match(/\d+/)[0],cb=b.match(/[A-Z]+/)[0],rb=+b.match(/\d+/)[0];
+  const c1=Math.min(ca.charCodeAt(0),cb.charCodeAt(0)),c2=Math.max(ca.charCodeAt(0),cb.charCodeAt(0));
+  const out=[];for(let c=c1;c<=c2;c++)for(let r=Math.min(ra,rb);r<=Math.max(ra,rb);r++)out.push(String.fromCharCode(c)+r);
+  return out;
+}
+function evalFormula(src,get){
+  const tk=tokenize(src);let p=0;
+  const peek=()=>tk[p], eat=t=>{if(!tk[p]||tk[p].t!==t)throw new Error("expect "+t);return tk[p++]};
+  function expr(){let v=term();while(peek()&&(peek().t==="+"||peek().t==="-")){const o=tk[p++].t;const r=term();v=o==="+"?num(v)+num(r):num(v)-num(r)}return v}
+  function term(){let v=factor();while(peek()&&(peek().t==="*"||peek().t==="/")){const o=tk[p++].t;const r=factor();v=o==="*"?num(v)*num(r):num(v)/num(r)}return v}
+  function num(v){if(Array.isArray(v))throw new Error("range");return v}
+  function factor(){
+    const k=peek();if(!k)throw new Error("eof");
+    if(k.t==="-"){p++;return -num(factor())}
+    if(k.t==="num"){p++;return k.v}
+    if(k.t==="("){p++;const v=expr();eat(")");return v}
+    if(k.t==="ref"){p++;if(peek()&&peek().t===":"){p++;const b=eat("ref").v;return rangeRefs(k.v,b).map(get).filter(x=>typeof x==="number")}const v=get(k.v);return typeof v==="number"?v:0}
+    if(k.t==="id"){p++;const f=FN[k.v];if(!f)throw new Error("fn");eat("(");const args=[];
+      if(peek()&&peek().t!==")"){do{const a=expr();Array.isArray(a)?args.push(...a):args.push(a)}while(peek()&&(peek().t===","||peek().t===";")&&++p)}
+      eat(")");return f(args)}
+    throw new Error("bad");
+  }
+  const v=expr();if(p!==tk.length)throw new Error("trail");
+  if(!isFinite(v))throw new Error("nan");return Math.round(v*1e6)/1e6;
+}
+
+/* ---------- state ---------- */
+const KEY="celda-proto-v1";
+let saved={lang:"es",done:[],xp:0};
+try{const r=localStorage.getItem(KEY);if(r)saved={...saved,...JSON.parse(r)}}catch(e){}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}}
+let view={name:"home"}, ls=null, payOpen=false, plan="all", payDone=false, openMod=0;
+const t=k=>T[saved.lang][k], tr=o=>typeof o==="string"?o:o[saved.lang];
+
+function cellRaw(id){const v=ls.cells[id];return v==null?"":tr(v)}
+function evalCell(id,depth=0){
+  const raw=cellRaw(id).trim();
+  if(raw==="")return "";
+  if(raw[0]==="="){if(depth>20)return "#REF";try{return evalFormula(raw.slice(1),r=>evalCell(r,depth+1))}catch(e){return saved.lang==="es"?"#¿NOMBRE?":"#NAME?"}}
+  const n=Number(raw);return raw!==""&&!isNaN(n)?n:raw;
+}
+
+/* ---------- render ---------- */
+const app=document.getElementById("app");
+function h(html){app.innerHTML=html}
+function header(){
+  const d=saved.done.length?1:0;
+  return `<div class="top"><div class="logo"><i></i>PractiCel</div><span class="chip">${t("proto")}</span><span class="spacer"></span>
+  <div class="lang" role="group" aria-label="Idioma / Language">
+    <button id="lang-es" aria-pressed="${saved.lang==="es"}" data-lang="es">ES</button>
+    <button id="lang-en" aria-pressed="${saved.lang==="en"}" data-lang="en">EN</button></div></div>`;
+}
+function home(){
+  const freeDone=saved.done.includes(LESSONS[LESSONS.length-1].id);
+  const doneN=freeDone?1:0, total=30;
+  const partsDone=LESSONS.filter(l=>saved.done.includes(l.id)).length;
+  const resume=Math.min(partsDone,LESSONS.length-1);
+  const streak=saved.done.length?1:0;
+  let mods=MODULES.map((m,i)=>{
+    const free=i===0;
+    const freeRow=`<button class="les ${freeDone?"done":"next"}" id="les-free" data-lesson="${freeDone?0:resume}">
+        <span class="dot">${freeDone?"✓":1}</span><span>${t("freeTitle")}<small>5 min · ${LESSONS.length} ${t("stepsWord")} · ${t("freeLesson")}${partsDone&&!freeDone?" · "+partsDone+"/"+LESSONS.length:""}</small></span></button>`;
+    const paidRows=PAID.map((p,j)=>`<button class="les" id="les-paid-${j}" data-pay="basic">
+        <span class="dot">${j+2}</span><span>${tr(p.title)}<small>${p.mins} min · ${t("inBasic")}</small></span></button>`).join("");
+    const lessonsHtml= free && openMod===0 ? `<div class="lessons">${freeRow}${paidRows}</div>`:"";
+    const detail= !free && openMod===i ? `<div class="mdet"><span class="eyebrow">${t("youLearn")}</span>
+        <ul>${m.topics[saved.lang].map(x=>`<li>${x}</li>`).join("")}</ul>
+        <p class="goal"><b>${t("goalLbl")}</b> ${m.goal[saved.lang]}</p>
+        <button class="btn ghost" id="mod-unlock-${i}" data-pay="basic">${t("unlockBasic")} · 7.99 USD</button></div>`:"";
+    return `<div class="mod"><button class="mod-h" id="mod-${i}" data-mod="${i}" aria-expanded="${openMod===i}"><span class="mod-n">${String(i+1).padStart(2,"0")}</span>
+      <span class="mod-t">${tr(m)}${free?"":`<small class="mod-s">${m.n} ${t("lessonsWord")} · ${m.topics[saved.lang][0]}</small>`}</span><span class="tag ${free?"free":"lock"}">${free?t("free"):t("locked")}</span></button>${lessonsHtml}${detail}</div>`;
+  }).join("");
+  h(`${header()}
+  <div class="stats">
+    <div class="stat"><b>${streak}</b><span>${t("streak")} · ${streak===1?t("day"):t("days")}</span></div>
+    <div class="stat"><b>${saved.xp}</b><span>${t("xp")}</span></div>
+    <div class="stat"><b>${doneN}/${total}</b><span>${t("lessonsDone")}</span></div></div>
+  <section class="course"><span class="eyebrow">${t("basic")}</span><h2>${tr(L("Excel desde cero","Excel from scratch"))}</h2>
+    <p>${t("basicSub")}</p><div class="bar"><i style="width:${Math.round(doneN/total*100)}%"></i></div></section>
+  <div class="mods">${mods}</div>
+  <section class="adv"><span class="eyebrow">${t("adv")}</span><p>${t("advSub")}</p>
+    <ol class="advlist">${ADV_MODULES[saved.lang].map(x=>`<li>${x}</li>`).join("")}</ol>
+    <div><button class="btn ghost" id="adv-unlock" data-pay="adv">${t("unlock")} · 12.99 USD</button></div></section>
+  <button class="btn ghost" id="reset" style="align-self:center;font-weight:400;font-size:13px;border:0;color:var(--muted)">${t("reset")}</button>
+  ${payOpen?paywall():""}`);
+}
+function paywall(){
+  const plans=[["basic",t("pBasic"),t("pBasicD"),"7.99"],["adv",t("pAdv"),t("pAdvD"),"12.99"],["all",t("pAll"),t("pAllD"),"17.99",true]];
+  return `<div class="sheetbg" id="paybg"><div class="pay" role="dialog" aria-modal="true" aria-labelledby="paytitle">
+    <h2 id="paytitle" style="font-size:24px">${t("payTitle")}</h2><p class="fine" style="font-size:15px">${t("payLead")}</p>
+    ${plans.map(p=>`<button class="plan" id="plan-${p[0]}" data-plan="${p[0]}" aria-pressed="${plan===p[0]}"><div><b>${p[1]}</b>${p[4]?`<span class="best">${t("best")}</span>`:""}<small>${p[2]}</small><ul class="inc">${INCLUDES[p[0]][saved.lang].map(x=>`<li>${x}</li>`).join("")}</ul></div>
+      <span><b class="p">${p[3]}</b> <small style="display:inline">USD</small><small>${t("once")}</small></span></button>`).join("")}
+    ${payDone?`<div class="fb good">${t("payThanks")}</div>`:`<button class="btn" id="buy">${t("buy")}</button>`}
+    <p class="fine">${t("payNote")}</p>
+    <button class="btn ghost" id="payclose">${t("close")}</button></div></div>`;
+}
+function startLesson(i){
+  const l=LESSONS[i];
+  ls={i,step:"learn",cells:{...l.sheet},sel:l.startSel||"A1",fb:null,ok:false,hint:false};
+  view={name:"lesson"};render();
+}
+function lesson(){
+  const l=LESSONS[ls.i];
+  const steps=`<div class="steps">${LESSONS.map((x,k)=>`<i class="${k<ls.i||(k===ls.i&&ls.ok)?"on":""}"></i>`).join("")}</div>`;
+  const stepLbl=`${t("step")} ${ls.i+1} ${t("of")} ${LESSONS.length}`;
+  let body="";
+  if(ls.step==="learn"){
+    body=`<section class="card"><span class="eyebrow">${t("freeTitle")} · ${stepLbl}</span><h2>${tr(l.title)}</h2>
+      ${l.intro[saved.lang].map(p=>`<p>${p}</p>`).join("")}<div class="note">${tr(l.note)}</div>
+      <button class="btn" id="go-practice">${t("start")}</button></section>`;
+  } else if(ls.ok){
+    const last=ls.i===LESSONS.length-1;
+    body=`${sheetHtml(l)}<section class="card win"><div class="big">+10</div><h2>${last?t("doneTitle"):t("good")}</h2><p>${last?t("doneAll"):t("xp")+" "+t("earned")+"."}</p>
+      <div class="row" style="width:100%">${last?`<button class="btn" id="open-pay">${t("unlock")}</button>`:`<button class="btn" id="next-lesson">${t("next")}</button>`}
+      <button class="btn ghost" id="to-home">${t("home")}</button></div></section>`;
+  } else {
+    body=`<section class="card" style="gap:10px"><span class="eyebrow">${t("practice")} · ${stepLbl}</span><p class="task">${tr(l.task)}</p></section>
+      ${sheetHtml(l)}
+      ${ls.fb?`<div class="fb bad" role="status">${tr(ls.fb)}</div>`:""}
+      ${ls.hint?`<div class="note">${tr(l.hint)}</div>`:""}
+      <div class="row"><button class="btn ghost" id="show-hint">${t("hint")}</button><button class="btn" id="check">${t("check")}</button></div>`;
+  }
+  h(`${header()}<div class="lhead"><button class="back" id="back" aria-label="${t("home")}">←</button>${steps}</div>${body}${payOpen?paywall():""}`);
+  const inp=document.getElementById("fx");
+  if(inp&&ls.focus){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);ls.focus=false}
+  markRefs();
+}
+function sheetHtml(l){
+  const selCol=ls.sel[0], selRow=ls.sel.slice(1);
+  const bar=`<div class="fbar"><span class="ref" aria-label="${t("cell")}">${ls.sel}</span><span class="fx">fx</span>
+    <input id="fx" value="${escapeAttr(ls.draft!=null?ls.draft:cellRaw(ls.sel))}" ${l.edit&&!ls.ok?"":"readonly"} placeholder="${l.edit?t("enter"):""}" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="${t("cell")} ${ls.sel}">
+    ${l.edit&&!ls.ok?`<button id="commit" aria-label="Enter">✓</button>`:""}</div>`;
+  let rows=ROWS.map(r=>`<tr><th class="${String(r)===selRow?"hl":""}">${r}</th>${COLS.map(c=>{
+    const id=c+r,v=evalCell(id),isNum=typeof v==="number";
+    const cls=[id===ls.sel?"sel":"",isNum?"num":"",(l.bold||[]).includes(id)?"bold":"",l.target===id?"target":""].join(" ");
+    return `<td class="${cls}"><button id="c-${id}" data-cell="${id}" aria-label="${id} ${v}">${escapeHtml(isNum?v.toLocaleString(saved.lang==="es"?"es-MX":"en-US"):v)}</button></td>`}).join("")}</tr>`).join("");
+  return `${bar}<div class="gridwrap"><table class="sheet ${l.edit&&!ls.ok?"edit":""}"><thead><tr><th class="corner"></th>${COLS.map(c=>`<th class="${c===selCol?"hl":""}">${c}</th>`).join("")}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function escapeHtml(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function escapeAttr(s){return escapeHtml(s)}
+function render(){view.name==="home"?home():lesson()}
+
+function commit(){
+  const inp=document.getElementById("fx");if(!inp||inp.readOnly)return;
+  ls.cells[ls.sel]=inp.value;ls.fb=null;ls.draft=null;ls.pt=null;render();
+}
+/* ---------- point mode: tap or drag cells while writing a formula ---------- */
+function pointable(){
+  const inp=document.getElementById("fx");
+  if(!inp||inp.readOnly||!LESSONS[ls.i].edit)return false;
+  const v=inp.value;
+  if(v.trim()[0]!=="=")return false;
+  if(ls.pt&&ls.pt.val===v)return true;           // replace the reference just inserted
+  return /[=+\-*/(,;:]\s*$/.test(v);
+}
+function insertRef(ref){
+  const inp=document.getElementById("fx");
+  let v=inp.value;
+  if(ls.pt&&ls.pt.val===v) v=v.slice(0,ls.pt.start);
+  const start=v.length; v=v+ref;
+  inp.value=v; ls.draft=v; ls.pt={start,val:v};
+  markRefs(); inp.focus(); inp.setSelectionRange(v.length,v.length);
+}
+function markRefs(){
+  const inp=document.getElementById("fx");
+  document.querySelectorAll(".sheet td.pref").forEach(td=>td.classList.remove("pref"));
+  if(!inp)return;const v=inp.value;if(v.trim()[0]!=="=")return;
+  const re=/([A-D])([1-6])(?::([A-D])([1-6]))?/gi;let m;
+  while((m=re.exec(v))){
+    const ids=m[3]?rangeRefs((m[1]+m[2]).toUpperCase(),(m[3]+m[4]).toUpperCase()):[(m[1]+m[2]).toUpperCase()];
+    ids.forEach(id=>{const b=document.getElementById("c-"+id);if(b)b.parentElement.classList.add("pref")});
+  }
+}
+let drag=null;
+app.addEventListener("pointerdown",e=>{
+  const b=e.target.closest("[data-cell]");if(!b||view.name!=="lesson"||ls.ok||!pointable())return;
+  e.preventDefault(); // keep the formula bar focused
+  drag={anchor:b.dataset.cell,cur:b.dataset.cell}; ls.skipClick=true; insertRef(drag.anchor);
+  try{b.releasePointerCapture(e.pointerId)}catch(_){}
+});
+app.addEventListener("pointermove",e=>{
+  if(!drag)return;
+  const el=document.elementFromPoint(e.clientX,e.clientY);const b=el&&el.closest&&el.closest("[data-cell]");
+  if(!b||b.dataset.cell===drag.cur)return;
+  drag.cur=b.dataset.cell;
+  insertRef(drag.cur===drag.anchor?drag.anchor:drag.anchor+":"+drag.cur);
+});
+window.addEventListener("pointerup",()=>{drag=null});
+app.addEventListener("input",e=>{if(e.target.id==="fx"){ls.draft=e.target.value;markRefs()}});
+function doCheck(){
+  const inp=document.getElementById("fx");
+  if(inp&&!inp.readOnly&&inp.value!==cellRaw(ls.sel))ls.cells[ls.sel]=inp.value;
+  const l=LESSONS[ls.i];const err=l.check(ls,evalCell);
+  if(err){ls.fb=err;render();return}
+  ls.ok=true;
+  if(!saved.done.includes(l.id)){saved.done.push(l.id);saved.xp+=10;persist()}
+  render();
+}
+
+app.addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;
+  if(b.dataset.lang){saved.lang=b.dataset.lang;persist();render();return}
+  if(b.dataset.lesson){startLesson(+b.dataset.lesson);return}
+  if(b.dataset.mod){const i=+b.dataset.mod;openMod=openMod===i?-1:i;render();return}
+  if(b.dataset.pay){payOpen=true;plan=b.dataset.pay;payDone=false;render();return}
+  if(b.dataset.plan){plan=b.dataset.plan;render();return}
+  if(b.dataset.cell){
+    if(ls.skipClick){ls.skipClick=false;return}
+    const inp=document.getElementById("fx");const l=LESSONS[ls.i];
+    if(l.edit&&inp&&!inp.readOnly&&inp.value!==cellRaw(ls.sel))ls.cells[ls.sel]=inp.value;
+    ls.sel=b.dataset.cell;ls.fb=null;ls.draft=null;ls.pt=null;ls.focus=l.edit;render();return}
+  switch(b.id){
+    case "go-practice":ls.step="practice";ls.focus=LESSONS[ls.i].edit;render();break;
+    case "check":doCheck();break;
+    case "commit":commit();break;
+    case "show-hint":ls.hint=true;render();break;
+    case "back":case "to-home":view={name:"home"};render();break;
+    case "next-lesson":startLesson(ls.i+1);break;
+    case "open-pay":payOpen=true;plan="all";payDone=false;render();break;
+    case "buy":payDone=true;render();break;
+    case "payclose":payOpen=false;render();break;
+    case "reset":saved={lang:saved.lang,done:[],xp:0};persist();render();break;
+  }
+});
+app.addEventListener("click",e=>{if(e.target.id==="paybg"){payOpen=false;render()}});
+app.addEventListener("keydown",e=>{
+  if(e.target.id==="fx"&&e.key==="Enter"){e.preventDefault();commit();}
+  if(e.key==="Escape"&&payOpen){payOpen=false;render()}
+});
+render();
+</script>
+
+</body>
+</html>
